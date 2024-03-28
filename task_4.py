@@ -13,6 +13,8 @@ def input_error(func):
 
 
 def parse_input(user_input):
+    if not user_input:
+        return "", []  # Повертаємо порожній рядок і порожній список аргументів
     cmd, *args = user_input.split()
     cmd = cmd.strip().lower()
     return cmd, args
@@ -57,24 +59,33 @@ def main():
     contacts = {}
     print("Welcome to the assistant bot!")
     while True:
-        user_input = input("Enter a command: ")
-        command, args = parse_input(user_input)
+        print("\nPlease choose an option:")
+        print("1. Add a contact")
+        print("2. Change a contact")
+        print("3. Show phone number")
+        print("4. Show all contacts")
+        print("5. Exit")
 
-        if command in ["close", "exit"]:
+        choice = input("Enter the number of your choice: ")
+
+        if choice == "1":
+            name = input("Enter the name: ")
+            phone = input("Enter the phone number: ")
+            print(add_contact([name, phone], contacts))
+        elif choice == "2":
+            name = input("Enter the name: ")
+            phone = input("Enter the new phone number: ")
+            print(change_contact([name, phone], contacts))
+        elif choice == "3":
+            name = input("Enter the name: ")
+            print(show_phone([name], contacts))
+        elif choice == "4":
+            show_all(contacts)
+        elif choice == "5":
             print("Good bye!")
             break
-        elif command == "hello":
-            print("How can I help you?")
-        elif command == "add":
-            print(add_contact(args, contacts))
-        elif command == "change":
-            print(change_contact(args, contacts))
-        elif command == "phone":
-            print(show_phone(args, contacts))
-        elif command == "all":
-            show_all(contacts)
         else:
-            print("Invalid command.")
+            print("Invalid choice. Please enter a number between 1 and 5.")
 
 
 if __name__ == "__main__":
